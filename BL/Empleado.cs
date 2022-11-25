@@ -54,8 +54,8 @@ namespace BL
             {
                 using (DL.FMolinaLeenkenGroupEntities context = new DL.FMolinaLeenkenGroupEntities())
                 {
-                    var query = context.EmpleadoAdd(empleado.NumeroNomina, empleado.Nombre, empleado.ApellidoMaterno, empleado.ApellidoMaterno, empleado.IdEstado);
-                    if(query > 0)
+                    var query = context.EmpleadoAdd(empleado.NumeroNomina, empleado.Nombre, empleado.ApellidoMaterno, empleado.ApellidoMaterno, empleado.Estado.IdEstado);
+                    if (query > 0)
                     {
                         result.Correct = true;
                     }
@@ -65,6 +65,97 @@ namespace BL
                         result.ErrorMessage = "Error al agregar";
                     }
                     result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public static ML.Result Update(ML.Empleado empleado)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL.FMolinaLeenkenGroupEntities context = new DL.FMolinaLeenkenGroupEntities())
+                {
+                    var query = context.EmpleadoUpdate(empleado.IdEmpleado, empleado.NumeroNomina, empleado.Nombre, empleado.ApellidoPaterno, empleado.ApellidoMaterno, empleado.IdEstado);
+
+                    if (query > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "Error al actualizar";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public static ML.Result GetById(int IdEmpleado)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL.FMolinaLeenkenGroupEntities context = new DL.FMolinaLeenkenGroupEntities())
+                {
+                    var query = context.EmpleadoGetById(IdEmpleado).FirstOrDefault();
+
+                    if (query != null)
+                    {
+                        ML.Empleado empleado = new ML.Empleado();
+
+                        empleado.IdEmpleado = query.IdEmpleado;
+                        empleado.NumeroNomina = query.NumeroNomina;
+                        empleado.Nombre = query.Nombre;
+                        empleado.ApellidoPaterno = query.ApellidoPaterno;
+                        empleado.ApellidoMaterno = query.ApellidoMaterno;
+                        empleado.IdEstado = query.IdEstado.Value;
+
+                        result.Correct = true;
+
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public static ML.Result Delete(ML.Empleado empleado)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL.FMolinaLeenkenGroupEntities context = new DL.FMolinaLeenkenGroupEntities())
+                {
+                    var query = context.EmpleadoDelete(empleado.IdEmpleado);
+                    if (query > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
                 }
             }
             catch (Exception ex)

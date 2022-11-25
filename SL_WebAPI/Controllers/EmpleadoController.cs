@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace SL_WebAPI.Controllers
 {
+    [EnableCors(origins: "http://localhost:16942", headers: "*", methods: "*")]
     public class EmpleadoController : ApiController
     {
 
@@ -62,31 +64,57 @@ namespace SL_WebAPI.Controllers
                 return Content(HttpStatusCode.NotFound, result);
             }
         }
-        //// GET: api/Empleado
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
-        //// GET: api/Empleado/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet]
+        [Route("api/Empleado/GetById")]
 
-        //// POST: api/Empleado
-        //public void Post([FromBody]string value)
-        //{
-        //}
+        public IHttpActionResult GetById(int IdEmpleado)
+        {
+            ML.Result result = BL.Empleado.GetById(IdEmpleado);
+            if (result.Correct)
+            {
+                return Content(HttpStatusCode.OK, result);
+            }
+            else
+            {
+                return Content(HttpStatusCode.NotFound, result);
+            }
+        }
 
-        //// PUT: api/Empleado/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        [HttpPost]
+        [Route("api/Empleado/Update")]
+        public IHttpActionResult Put(int IdEmpleado, [FromBody] ML.Empleado empleado)
+        {
+            empleado.IdEmpleado = IdEmpleado;
+            ML.Result result = BL.Empleado.Update(empleado);
 
-        //// DELETE: api/Empleado/5
-        //public void Delete(int id)
-        //{
-        //}
+            if (result.Correct)
+            {
+                return Content(HttpStatusCode.OK, result);
+            }
+            else
+            {
+                return Content(HttpStatusCode.NotFound, result);
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public IHttpActionResult Delete(int IdEmpleado)
+        {
+
+            ML.Empleado empleado = new ML.Empleado();
+            empleado.IdEmpleado = IdEmpleado;
+            var result = BL.Empleado.Delete(empleado);
+
+            if (result.Correct)
+            {
+                return Content(HttpStatusCode.OK, result);
+            }
+            else
+            {
+                return Content(HttpStatusCode.NotFound, result);
+            }
+        }
     }
 }

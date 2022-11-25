@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FMolinaLeenkenGroupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FMolinaLeenkenGroupModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Empleado">
           <Key>
             <PropertyRef Name="IdEmpleado" />
@@ -66,8 +66,7 @@
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FMolinaLeenkenGroupModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -118,12 +117,9 @@
             <Parameter Name="IdEstado" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EmpleadoDelete">
-            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+          <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EmpleadoGetAll" ReturnType="Collection(FMolinaLeenkenGroupModel.EmpleadoGetAll_Result)" />
-          <FunctionImport Name="EmpleadoGetById" ReturnType="Collection(FMolinaLeenkenGroupModel.EmpleadoGetById_Result)">
-            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="EmpleadoUpdate">
             <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
             <Parameter Name="NumeroNomina" Mode="In" Type="String" />
@@ -133,6 +129,9 @@
             <Parameter Name="IdEstado" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EstadoGetAll" ReturnType="Collection(FMolinaLeenkenGroupModel.EstadoGetAll_Result)" />
+          <FunctionImport Name="EmpleadoGetById" ReturnType="Collection(FMolinaLeenkenGroupModel.EmpleadoGetById_Result)">
+            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="EmpleadoGetAll_Result">
           <Property Type="Int32" Name="IdEmpleado" Nullable="false" />
@@ -143,16 +142,17 @@
           <Property Type="Int32" Name="IdEstado" Nullable="false" />
           <Property Type="String" Name="EstadoNombre" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="EstadoGetAll_Result">
+          <Property Type="Int32" Name="IdEstado" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
+        </ComplexType>
         <ComplexType Name="EmpleadoGetById_Result">
+          <Property Type="Int32" Name="IdEmpleado" Nullable="false" />
           <Property Type="String" Name="NumeroNomina" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="IdEstado" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="EstadoGetAll_Result">
-          <Property Type="Int32" Name="IdEstado" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -195,23 +195,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="EmpleadoGetById" FunctionName="FMolinaLeenkenGroupModel.Store.EmpleadoGetById">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="FMolinaLeenkenGroupModel.EmpleadoGetById_Result">
-                <ScalarProperty Name="NumeroNomina" ColumnName="NumeroNomina" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="EmpleadoUpdate" FunctionName="FMolinaLeenkenGroupModel.Store.EmpleadoUpdate" />
           <FunctionImportMapping FunctionImportName="EstadoGetAll" FunctionName="FMolinaLeenkenGroupModel.Store.EstadoGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="FMolinaLeenkenGroupModel.EstadoGetAll_Result">
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EmpleadoGetById" FunctionName="FMolinaLeenkenGroupModel.Store.EmpleadoGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FMolinaLeenkenGroupModel.EmpleadoGetById_Result">
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="NumeroNomina" ColumnName="NumeroNomina" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
