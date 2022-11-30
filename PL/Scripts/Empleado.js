@@ -75,12 +75,12 @@ function EstadoGetAll() {
 //        Estado: {
 //            IdEstado: $('#ddlEstados').val(0)
 //        }
-//    }
+//    } 
 
 
 function Add(empleado) {
 
-
+    $.support.cors = true;
     $.ajax({
         type: 'POST',
 /*        crossDomain: true,*/
@@ -88,7 +88,7 @@ function Add(empleado) {
         dataType: 'json',
         data: JSON.stringify(empleado),
         contentType: 'application/json; charset=utf-8',
-/*        data: empleado,*/
+ /*       data: empleado,*/
         success: function (result) {
             $('#myModal').modal();
             $('#ModalUpdate').modal('hide');
@@ -101,26 +101,20 @@ function Add(empleado) {
 };
 
 
+function Update(empleado) {
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:16942/api/Empleado/Update',
+        dataType: 'json',
+        data;
+    })
+}
+
 function Modal() {
     var mostrar = $('#ModalUpdate').modal('show');
     IniciarEmpleado();
 
 }
-
-function IniciarEmpleado() {
-
-    var empleado = {
-        IdEmpleado: $('#txtIdEmpleado').val(''),
-        NumeroNomina: $('#txtNumeroNomina').val(''),
-        Nombre: $('#txtNombre').val(''),
-        ApellidoPaterno: $('#txtApellidoPaterno').val(''),
-        ApellidoMaterno: $('#txtApellidoMaterno').val(''),
-        Estado: {
-            IdEstado: $('#ddlEstados').val(0)
-        }
-    }
-}
-
 
 function Actualizar() {
     var empleado = {
@@ -140,5 +134,19 @@ function Actualizar() {
     }
     else {
         Update(empleado);
+    }
+}
+
+function IniciarEmpleado() {
+
+    var empleado = {
+        IdEmpleado: $('#txtIdEmpleado').val(''),
+        NumeroNomina: $('#txtNumeroNomina').val(''),
+        Nombre: $('#txtNombre').val(''),
+        ApellidoPaterno: $('#txtApellidoPaterno').val(''),
+        ApellidoMaterno: $('#txtApellidoMaterno').val(''),
+        Estado: {
+            IdEstado: $('#ddlEstados').val(0)
+        }
     }
 }
